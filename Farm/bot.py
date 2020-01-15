@@ -1,5 +1,6 @@
 import telebot
 import sqlite3
+from threading import Thread
 from time import sleep
 from markdown import Markdown
 from config import *
@@ -88,5 +89,10 @@ def show_animals_shop(call):
 
 #func.main()
 
+Thread(target = func.main).start()
+
+
 if __name__ == '__main__':
 	bot.polling(none_stop = True)
+
+		

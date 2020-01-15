@@ -69,13 +69,12 @@ class Functions:
 		)
 
 	def main(event):
-		index = 1
+		schedule.every(10).seconds.do(db.update_products)
+		schedule.every(50).seconds.do(db.change_mart)
+			
 		while True:
-			if index % 5 == 0:
-				db.change_mart()
-			db.update_products()
-			index += 1
-			sleep(10)
+			schedule.run_pending()
+			sleep(1)
 
 
 			

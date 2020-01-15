@@ -7,4 +7,3 @@ class Animal:
 		self.picture = picture
 		self.english_name = english_name
 
-
