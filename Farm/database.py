@@ -1,6 +1,7 @@
 import sqlite3
 import random
-from config import DATA
+from config import DATA, MARKET_PRICE
+from animals_in_game import *
 
 
 class DataBase:
@@ -28,7 +29,7 @@ class DataBase:
 	def add_start_prices(event):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute('INSERT INTO market_prices VALUES(?,?,?,?)', (20, 40, 37, 120))
+		cursor.execute('INSERT INTO market_prices VALUES(?,?,?,?)', (MARKET_PRICE['egg'], MARKET_PRICE['wool'], MARKET_PRICE['milk'], MARKET_PRICE['meat']))
 		con.commit()
 		con.close()
 
@@ -92,10 +93,10 @@ class DataBase:
 	def update_products(event):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute(f'UPDATE profile_information SET eggs = eggs + chicken_count * 10')
-		cursor.execute(f'UPDATE profile_information SET wool = wool + sheep_count * 10')
-		cursor.execute(f'UPDATE profile_information SET milk = milk + cow_count * 12')
-		cursor.execute(f'UPDATE profile_information SET meat = meat + pig_count * 5')
+		cursor.execute(f'UPDATE profile_information SET eggs = eggs + chicken_count * {chicken.performance}')
+		cursor.execute(f'UPDATE profile_information SET wool = wool + sheep_count * {sheep.performance}')
+		cursor.execute(f'UPDATE profile_information SET milk = milk + cow_count * {cow.performance}')
+		cursor.execute(f'UPDATE profile_information SET meat = meat + pig_count * {pig.performance}')
 		con.commit()
 		con.close()
 
@@ -106,10 +107,10 @@ class DataBase:
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
 
-		egg_price_random = random.randint(20,25)
-		wool_price_random = random.randint(40,50)
-		milk_price_random = random.randint(37,46)
-		meat_price_random = random.randint(120,144)
+		egg_price_random = random.randint(MARKET_PRICE['egg'],int(MARKET_PRICE['egg'] * 1.25))
+		wool_price_random = random.randint(MARKET_PRICE['wool'], int(MARKET_PRICE['wool'] * 1.25))
+		milk_price_random = random.randint(MARKET_PRICE['milk'], int(MARKET_PRICE['milk'] * 1.25))
+		meat_price_random = random.randint(MARKET_PRICE['meat'], int(MARKET_PRICE['meat'] * 1.25))
 
 		cursor.execute(f'UPDATE market_prices SET egg_price = {egg_price_random}')
 		cursor.execute(f'UPDATE market_prices SET wool_price = {wool_price_random}')

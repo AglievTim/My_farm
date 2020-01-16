@@ -4,7 +4,7 @@ from buttons import Buttons
 bt = Buttons()
 main = telebot.types.ReplyKeyboardMarkup(True)
 main.row(bt.farm, bt.animals)
-main.row(bt.mart)
+main.row(bt.mart, bt.angar)
 
 go_main = telebot.types.ReplyKeyboardMarkup(True)
 go_main.row(bt.back)

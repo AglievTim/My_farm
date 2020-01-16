@@ -61,6 +61,10 @@ def mart(message):
 			parse_mode = 'Markdown', reply_markup = inline_for_sale_products
 
 		)
+@bot.message_handler(func = lambda message: message.text == bt.angar)
+def angar(message):
+	print("")
+
 
 @bot.callback_query_handler(func=lambda call: True)
 def show_animals_shop(call):
