@@ -1,22 +1,16 @@
 import sqlite3
 import random
-from config import DATA, MARKET_PRICE
+from config import DATA, MARKET_PRICE, ANGAR_LEVELS
 from animals_in_game import *
 
 
 class DataBase:
-#	#Подключение к безе данных
-#
-#	def connection_database(event, data):
-#		con = sqlite3.connect(data, check_same_thread = False)
-#		cursor = con.cursor()
-
 
 	#Создаем таблицу с профилем игрока
 	def create_table(event):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute("CREATE TABLE IF NOT EXISTS profile_information(user_id INTEGER, balance INTEGER, chicken_count INTEGER, sheep_count INTEGER, cow_count INTEGER, pig_count INTEGER, eggs INTEGER, wool INTEGER, milk INTEGER, meat INTEGER, crib_status INTEGER)")
+		cursor.execute("CREATE TABLE IF NOT EXISTS profile_information(user_id INTEGER, balance INTEGER, chicken_count INTEGER, sheep_count INTEGER, cow_count INTEGER, pig_count INTEGER, eggs INTEGER, wool INTEGER, milk INTEGER, meat INTEGER, crib_status INTEGER, angar_level INTEGER)")
 		con.close()
 		
 	def create_table_market_prices(event):
@@ -37,7 +31,7 @@ class DataBase:
 	def add_new_gamer(event, user_id, data):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute("INSERT INTO profile_information VALUES(?,?,?,?,?,?,?,?,?,?,?)", (user_id, 500000000, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+		cursor.execute("INSERT INTO profile_information VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", (user_id, 500000000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1))
 		con.commit()
 		con.close()
 
@@ -90,18 +84,29 @@ class DataBase:
 		con.close()
 
 	#Прибавляет ресурсы игроку
-	def update_products(event, user_id, animal):
-		print('update_products')
+	def update_products(event, user_id, animal, angar_level, products):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
+		animal_count = cursor.execute(f'SELECT {animal.english_name}_count FROM profile_information WHERE user_id = {user_id}').fetchone()
+		products_count = animal_count[0] * animal.performance
+		product = ''
+
 		if animal == chicken:
-			cursor.execute(f'UPDATE profile_information SET eggs = eggs + chicken_count * {chicken.performance} WHERE user_id = {user_id}')
+			product = 'eggs'
 		if animal == sheep:
-			cursor.execute(f'UPDATE profile_information SET wool = wool + sheep_count * {sheep.performance} WHERE user_id = {user_id}')
+			product = 'wool'
 		if animal == cow:
-			cursor.execute(f'UPDATE profile_information SET milk = milk + cow_count * {cow.performance} WHERE user_id = {user_id}')
+			product = 'milk'
 		if animal == pig:
-			cursor.execute(f'UPDATE profile_information SET meat = meat + pig_count * {pig.performance} WHERE user_id = {user_id}')
+			product = 'meat'
+
+	
+		if (products + products_count) > ANGAR_LEVELS[angar_level]:
+			cursor.execute(f'UPDATE profile_information SET {product} = {ANGAR_LEVELS[angar_level]} WHERE user_id = {user_id}')
+		else:				
+			cursor.execute(f'UPDATE profile_information SET {product} = {product} + {animal.english_name}_count * {animal.performance} WHERE user_id = {user_id}')
+
+	
 		con.commit()
 		con.close()
 
@@ -131,14 +136,35 @@ class DataBase:
 		market_rate = cursor.execute('SELECT egg_price, wool_price, milk_price, meat_price FROM market_prices')
 		return market_rate
 		con.close()
-
-	#Изменяет статус хлева - заполен или нет
-	def users_whos_crib_end(event):
+	
+	#Количество продутков у человека
+	def product_sum(event, user_id, animal):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		users = cor.execute('SELECT user_id FROM profile_information WHERE eggs = 100').fetchone()
-		return users
-		
+		all_products = cursor.execute(f'SELECT eggs, wool, milk, meat FROM profile_information WHERE user_id = {user_id}').fetchone()
+		responce = 0
+
+		if animal == chicken:
+			responce = all_products[0]
+		if animal == sheep:
+			responce = all_products[1]
+		if animal == cow:
+			responce = all_products[2]
+		if animal == pig:
+			responce = all_products[3]
+		return responce
+		con.close()
+
+	#Возвращает уровень хлева
+	def angar_level(event, user_id):
+		con = sqlite3.connect(DATA, check_same_thread = False)
+		cursor = con.cursor()
+		level = cursor.execute(f'SELECT angar_level FROM profile_information WHERE user_id = {user_id}').fetchone()
+		return level[0]
+		con.close()
+
+
+
 
 			
 

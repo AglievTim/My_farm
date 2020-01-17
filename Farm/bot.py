@@ -25,6 +25,7 @@ db.add_start_prices()
 def start_message(message):
 	db.add_new_gamer(message.from_user.id, DATA)
 	bot.send_message(message.chat.id, f"Привет, {message.from_user.username}, рады видеть тебя на ферме.", reply_markup = main)
+	
 
 
 @bot.message_handler(func = lambda message: message.text == bt.farm)
@@ -81,11 +82,11 @@ def show_animals_shop(call):
 	if call.data == 'buy_chicken':
 		Thread(target = func.action_after_purchase, args = (chicken, user_id, chat_id,)).start()
 	if call.data == 'buy_sheep':
-		func.action_after_purchase(sheep, user_id, chat_id)
+		Thread(target = func.action_after_purchase, args = (sheep, user_id, chat_id,)).start()
 	if call.data == 'buy_cow':
-		func.action_after_purchase(cow, user_id, chat_id)
+		Thread(target = func.action_after_purchase, args = (cow, user_id, chat_id,)).start()
 	if call.data == 'buy_pig':
-		func.action_after_purchase(pig, user_id, chat_id)
+		Thread(target = func.action_after_purchase, args = (pig, user_id, chat_id,)).start()
 	if call.data == 'my_animals':
 		func.information_about_farm(chat_id, user_id)
 

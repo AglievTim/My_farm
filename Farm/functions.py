@@ -11,8 +11,8 @@ bot = telebot.TeleBot(TOKEN)
 
 db = DataBase()
 
-
 class Functions:
+
 	#Обрабатывает нажатие на кнопку покупки
 	def action_after_purchase(event, animal, user_id, chat_id):
 		if db.take_balance(user_id) >= animal.price:
@@ -24,11 +24,15 @@ class Functions:
 				parse_mode = 'Markdown'
 
 				)
-			schedule.every(10).seconds.do(db.update_products, user_id, animal)
+			#Генерирует ресурсы
+			while (db.product_sum(user_id, animal) < 100):
+				angar_level = db.angar_level(user_id)
+				products = db.product_sum(user_id,animal)
 
-			while True:
-				schedule.run_pending()
-				sleep(1)
+				db.update_products(user_id, animal,angar_level, products)
+				sleep(10)
+
+
 		else:
 			bot.send_message(chat_id, 
 				'🤔*Хм...*\n\n'
@@ -74,13 +78,14 @@ class Functions:
 		)
 
 	def main(event):
-		#schedule.every(10).seconds.do(db.update_products)
 		schedule.every(50).seconds.do(db.change_mart)
-		
 
 		while True:
 			schedule.run_pending()
 			sleep(1)
+
+
+
 
 			
 
