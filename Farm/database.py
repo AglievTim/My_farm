@@ -16,7 +16,7 @@ class DataBase:
 	def create_table(event):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute("CREATE TABLE IF NOT EXISTS profile_information(user_id INTEGER, balance INTEGER, chicken_count INTEGER, sheep_count INTEGER, cow_count INTEGER, pig_count INTEGER, eggs INTEGER, wool INTEGER, milk INTEGER, meat INTEGER)")
+		cursor.execute("CREATE TABLE IF NOT EXISTS profile_information(user_id INTEGER, balance INTEGER, chicken_count INTEGER, sheep_count INTEGER, cow_count INTEGER, pig_count INTEGER, eggs INTEGER, wool INTEGER, milk INTEGER, meat INTEGER, crib_status INTEGER)")
 		con.close()
 		
 	def create_table_market_prices(event):
@@ -37,7 +37,7 @@ class DataBase:
 	def add_new_gamer(event, user_id, data):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute("INSERT INTO profile_information VALUES(?,?,?,?,?,?,?,?,?,?)", (user_id, 500000000, 0, 0, 0, 0, 0, 0, 0, 0))
+		cursor.execute("INSERT INTO profile_information VALUES(?,?,?,?,?,?,?,?,?,?,?)", (user_id, 500000000, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 		con.commit()
 		con.close()
 
@@ -90,13 +90,18 @@ class DataBase:
 		con.close()
 
 	#Прибавляет ресурсы игроку
-	def update_products(event):
+	def update_products(event, user_id, animal):
+		print('update_products')
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute(f'UPDATE profile_information SET eggs = eggs + chicken_count * {chicken.performance}')
-		cursor.execute(f'UPDATE profile_information SET wool = wool + sheep_count * {sheep.performance}')
-		cursor.execute(f'UPDATE profile_information SET milk = milk + cow_count * {cow.performance}')
-		cursor.execute(f'UPDATE profile_information SET meat = meat + pig_count * {pig.performance}')
+		if animal == chicken:
+			cursor.execute(f'UPDATE profile_information SET eggs = eggs + chicken_count * {chicken.performance} WHERE user_id = {user_id}')
+		if animal == sheep:
+			cursor.execute(f'UPDATE profile_information SET wool = wool + sheep_count * {sheep.performance} WHERE user_id = {user_id}')
+		if animal == cow:
+			cursor.execute(f'UPDATE profile_information SET milk = milk + cow_count * {cow.performance} WHERE user_id = {user_id}')
+		if animal == pig:
+			cursor.execute(f'UPDATE profile_information SET meat = meat + pig_count * {pig.performance} WHERE user_id = {user_id}')
 		con.commit()
 		con.close()
 
@@ -126,5 +131,15 @@ class DataBase:
 		market_rate = cursor.execute('SELECT egg_price, wool_price, milk_price, meat_price FROM market_prices')
 		return market_rate
 		con.close()
+
+	#Изменяет статус хлева - заполен или нет
+	def users_whos_crib_end(event):
+		con = sqlite3.connect(DATA, check_same_thread = False)
+		cursor = con.cursor()
+		users = cor.execute('SELECT user_id FROM profile_information WHERE eggs = 100').fetchone()
+		return users
+		
+
+			
 
 

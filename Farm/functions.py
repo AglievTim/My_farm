@@ -24,6 +24,11 @@ class Functions:
 				parse_mode = 'Markdown'
 
 				)
+			schedule.every(10).seconds.do(db.update_products, user_id, animal)
+
+			while True:
+				schedule.run_pending()
+				sleep(1)
 		else:
 			bot.send_message(chat_id, 
 				'🤔*Хм...*\n\n'
@@ -69,13 +74,13 @@ class Functions:
 		)
 
 	def main(event):
-		schedule.every(10).seconds.do(db.update_products)
+		#schedule.every(10).seconds.do(db.update_products)
 		schedule.every(50).seconds.do(db.change_mart)
-			
+		
+
 		while True:
 			schedule.run_pending()
 			sleep(1)
-
 
 			
 

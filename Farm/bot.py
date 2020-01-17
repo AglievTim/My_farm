@@ -26,6 +26,7 @@ def start_message(message):
 	db.add_new_gamer(message.from_user.id, DATA)
 	bot.send_message(message.chat.id, f"Привет, {message.from_user.username}, рады видеть тебя на ферме.", reply_markup = main)
 
+
 @bot.message_handler(func = lambda message: message.text == bt.farm)
 def farm(message):
 	func.information_about_farm(message.chat.id, message.from_user.id)
@@ -63,7 +64,7 @@ def mart(message):
 		)
 @bot.message_handler(func = lambda message: message.text == bt.angar)
 def angar(message):
-	print("")
+	print("Склад")
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -78,7 +79,7 @@ def show_animals_shop(call):
 		func.send_description_animal(chat_id, pig, inline_button_buy_pig)
 	#Обработка нажатия клавишы "Купить" в магазине
 	if call.data == 'buy_chicken':
-		func.action_after_purchase(chicken, user_id, chat_id)
+		Thread(target = func.action_after_purchase, args = (chicken, user_id, chat_id,)).start()
 	if call.data == 'buy_sheep':
 		func.action_after_purchase(sheep, user_id, chat_id)
 	if call.data == 'buy_cow':
@@ -87,11 +88,7 @@ def show_animals_shop(call):
 		func.action_after_purchase(pig, user_id, chat_id)
 	if call.data == 'my_animals':
 		func.information_about_farm(chat_id, user_id)
-	if call.data == bt.sale_egg:
-		print(123)
 
-
-#func.main()
 
 Thread(target = func.main).start()
 
