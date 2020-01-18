@@ -10,7 +10,7 @@ class DataBase:
 	def create_table(event):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute("CREATE TABLE IF NOT EXISTS profile_information(user_id INTEGER, balance INTEGER, chicken_count INTEGER, sheep_count INTEGER, cow_count INTEGER, pig_count INTEGER, eggs INTEGER, wool INTEGER, milk INTEGER, meat INTEGER, crib_status INTEGER, angar_level INTEGER)")
+		cursor.execute("CREATE TABLE IF NOT EXISTS profile_information(user_id INTEGER, balance INTEGER, chicken_count INTEGER, sheep_count INTEGER, cow_count INTEGER, pig_count INTEGER, eggs INTEGER, wool INTEGER, milk INTEGER, meat INTEGER, crib_status INTEGER, angar_level INTEGER, eggs_storage INTEGER, wool_storage INTEGER, milk_storage INTEGER, meat_storage INTEGER)")
 		con.close()
 		
 	def create_table_market_prices(event):
@@ -31,7 +31,7 @@ class DataBase:
 	def add_new_gamer(event, user_id, data):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
-		cursor.execute("INSERT INTO profile_information VALUES(?,?,?,?,?,?,?,?,?,?,?,?)", (user_id, 500000000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1))
+		cursor.execute("INSERT INTO profile_information VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (user_id, 500000000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0))
 		con.commit()
 		con.close()
 
@@ -75,11 +75,19 @@ class DataBase:
 		return all_animals
 		con.close()
 
-	#Возвращает все ресурсы игрока
+	#Возвращает все ресурсы из хлева игрока 
 	def take_all_products(event, user_id):
 		con = sqlite3.connect(DATA, check_same_thread = False)
 		cursor = con.cursor()
 		all_products = cursor.execute(f'SELECT eggs, wool, milk, meat FROM profile_information WHERE user_id = {user_id}')
+		return all_products
+		con.close()
+
+	#Возвращает все ресурсы из склада
+	def take_all_products_storage(event, user_id):
+		con = sqlite3.connect(DATA, check_same_thread = False)
+		cursor = con.cursor()
+		all_products = cursor.execute(f'SELECT eggs_storage, wool_storage, milk_storage, meat_storage FROM profile_information WHERE user_id = {user_id}')
 		return all_products
 		con.close()
 
@@ -106,9 +114,9 @@ class DataBase:
 		else:				
 			cursor.execute(f'UPDATE profile_information SET {product} = {product} + {animal.english_name}_count * {animal.performance} WHERE user_id = {user_id}')
 
-	
 		con.commit()
 		con.close()
+
 
 			
 

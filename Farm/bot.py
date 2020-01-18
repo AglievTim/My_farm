@@ -25,7 +25,7 @@ db.add_start_prices()
 def start_message(message):
 	db.add_new_gamer(message.from_user.id, DATA)
 	bot.send_message(message.chat.id, f"Привет, {message.from_user.username}, рады видеть тебя на ферме.", reply_markup = main)
-	
+
 
 
 @bot.message_handler(func = lambda message: message.text == bt.farm)
@@ -64,8 +64,8 @@ def mart(message):
 
 		)
 @bot.message_handler(func = lambda message: message.text == bt.angar)
-def angar(message):
-	print("Склад")
+def storage(message):
+	p
 
 
 @bot.callback_query_handler(func=lambda call: True)
