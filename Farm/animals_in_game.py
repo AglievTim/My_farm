@@ -1,7 +1,7 @@
 from animal import Animal
 
-chicken = Animal("Курица", 499, 25, "🥚", '/Users/timuragliev/Desktop/Projects/My_farm/Farm/Images/chicken.png', 'chicken')
-sheep = Animal("Овечка", 5000, 20, '💭', '/Users/timuragliev/Desktop/Projects/My_farm/Farm/Images/zebra.png', 'sheep')
-cow = Animal('Корова', 35000, 10, '🥛', '/Users/timuragliev/Desktop/Projects/My_farm/Farm/Images/cow.png', 'cow')
-pig = Animal('Свинья', 50000, 5, '🥩', '/Users/timuragliev/Desktop/Projects/My_farm/Farm/Images/pig.png', 'pig')
+chicken = Animal("Курица", 499, 25, "🥚", LINK_TO_IMAGES['chicken'], 'chicken')
+sheep = Animal("Овечка", 5000, 20, '💭', LINK_TO_IMAGES['sheep'], 'sheep')
+cow = Animal('Корова', 35000, 10, '🥛', LINK_TO_IMAGES['cow'], 'cow')
+pig = Animal('Свинья', 50000, 5, '🥩', LINK_TO_IMAGES['pig'], 'pig')
 

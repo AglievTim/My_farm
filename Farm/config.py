@@ -18,3 +18,13 @@ ANGAR_LEVELS = {
 	9 : 900,
 	10 : 1000
 }
+
+TIME_FOR_GENERATE_PRODUCTS = 3600 #seconds
+TIME_FOR_CHANGE_MART = 5 #hours
+
+LINKS_TO_IMAGES = {
+	'chicken' : '/usr/local/bin/My_farm/Farm/Images/chicken.png',
+	'sheep' : '/usr/local/bin/My_farm/Farm/Images/zebra.png',
+	'cow' : '/usr/local/bin/My_farm/Farm/Images/Images/cow.png',
+	'pig' : '/usr/local/bin/My_farm/Farm/Images/Images/pig.png'
+}

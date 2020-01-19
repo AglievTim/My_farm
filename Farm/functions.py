@@ -30,7 +30,7 @@ class Functions:
 				products = db.product_sum(user_id,animal)
 
 				db.update_products(user_id, animal,angar_level, products)
-				sleep(10)
+				sleep(TIME_FOR_GENERATE_PRODUCTS)
 
 
 		else:
@@ -78,7 +78,7 @@ class Functions:
 		)
 
 	def main(event):
-		schedule.every(50).seconds.do(db.change_mart)
+		schedule.every(TIME_FOR_CHANGE_MART).hours.do(db.change_mart)
 
 		while True:
 			schedule.run_pending()
