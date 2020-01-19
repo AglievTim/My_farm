@@ -1,5 +1,5 @@
-TOKEN = '918293759:AAHes4v1RqLSDsYkrdQyO-w8r6LKzJI3kmc'
-DATA = '/usr/local/bin/bot/My_farm/Farm/database.db'
+TOKEN = '757155316:AAGbR4rJi9RPP9Pp54Dh8bSQJPhZzyoCHFw'
+DATA = '/Users/timuragliev/Desktop/database.db'
 MARKET_PRICE = {
 	'egg' : 4,
 	'wool' : 25,
@@ -19,12 +19,12 @@ ANGAR_LEVELS = {
 	10 : 1000
 }
 
-TIME_FOR_GENERATE_PRODUCTS = 3600 #seconds
-TIME_FOR_CHANGE_MART = 5 #hours
+TIME_FOR_GENERATE_PRODUCTS = 10 #seconds
+TIME_FOR_CHANGE_MART = 0.07 #hours
 
 LINKS_TO_IMAGES = {
-	'chicken' : '/usr/local/bin/My_farm/Farm/Images/chicken.png',
-	'sheep' : '/usr/local/bin/My_farm/Farm/Images/zebra.png',
-	'cow' : '/usr/local/bin/My_farm/Farm/Images/Images/cow.png',
-	'pig' : '/usr/local/bin/My_farm/Farm/Images/Images/pig.png'
+	'chicken' : '/Users/timuragliev/Desktop/My_projects/Images/chicken.png',
+	'sheep' : '/Users/timuragliev/Desktop/My_projects/Images/zebra.png',
+	'cow' : '/Users/timuragliev/Desktop/My_projects/Images/cow.png',
+	'pig' : '/Users/timuragliev/Desktop/My_projects/Images/pig.png'
 }
